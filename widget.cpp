@@ -7,12 +7,19 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    ui->pbCoffee->setDisabled(1);
+    ui->pbTea->setDisabled(1);
+    ui->pbCoke->setDisabled(1);
+    ui->pbCoke->setDisabled(1);
+    ui->pbRetrurn->setDisabled(1);
 }
 
 Widget::~Widget()
 {
     delete ui;
 }
+
+
 void Widget::changeMoney(int n){
     int k = money;
     money += n;
@@ -21,6 +28,10 @@ void Widget::changeMoney(int n){
         msg.information(nullptr, "Error", "Not Enough Money");
         money = k;
     }
+    ui->pbRetrurn->setEnabled(money>=1);
+    ui->pbCoffee->setEnabled(money>=100);
+    ui->pbTea->setEnabled(money>=150);
+    ui->pbCoke->setEnabled(money>=200);
     ui->lcdNumber->display(money);
 }
 void Widget::on_pb10_clicked()
@@ -66,6 +77,7 @@ void Widget::on_pbRetrurn_clicked()
     int  q100 = (money - (500*q500)) / 100;
     int q50 = (money - (500*q500) - (100*q100)) / 50;
     int q10 = (money - (500*q500) - (100*q100) - (50 * q50)) / 10;
+    changeMoney(-money);
     QMessageBox msg;
     msg.information(nullptr, "Return", QString("500 : %1\n 100 : %2\n 50 : %3\n 10 : %4").arg(q500).arg(q100).arg(q50).arg(q10));
 }
